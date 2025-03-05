@@ -27,7 +27,7 @@ func StartClient(serverAddr string) {
 		command = strings.TrimSpace(command)
 		fmt.Println("Executing command:", command)
 		output := executeCommand(command)
-		conn.Write([]byte(output + "\n"))
+		conn.Write([]byte(output + "\nEOF\n"))
 	}
 }
 

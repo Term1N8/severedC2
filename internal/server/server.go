@@ -40,11 +40,18 @@ func handleConnection(conn net.Conn) {
 		}
 		conn.Write([]byte(command + "\n"))
 
-		response, err := reader.ReadString('\n')
-		if err != nil {
-			fmt.Println("Error reading from connection:", err)
-			return
+		var responseBuilder strings.Builder
+		for {
+			response, err := reader.ReadString('\n')
+			if err != nil {
+				fmt.Println("Error reading from connection:", err)
+				return
+			}
+			if strings.TrimSpace(response) == "EOF" {
+				break
+			}
+			responseBuilder.WriteString(response)
 		}
-		fmt.Println("Response from client:", response)
+		fmt.Println("Response from client:", responseBuilder.String())
 	}
 }
